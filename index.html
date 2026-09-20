@@ -5,26 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Patient Advocacy Toolkit — Complaint Generator</title>
 <style>
-  body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #222; }
+  body { font-family: system-ui, sans-serif; max-width: 820px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #222; }
   h1 { color: #1a3a5c; }
+  h2 { color: #1a3a5c; font-size: 1.2em; }
   .field { margin-bottom: 16px; }
   label { display: block; font-weight: 600; margin-bottom: 4px; }
-  input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-  textarea { min-height: 80px; }
+  input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 15px; }
+  textarea { min-height: 90px; }
   button { background: #1a3a5c; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 16px; }
   button:hover { background: #2a4a6c; }
   .output { background: #f4f4f4; border: 1px solid #ddd; padding: 16px; border-radius: 4px; white-space: pre-wrap; font-family: monospace; margin-top: 20px; }
-  .note { font-size: 0.9em; color: #666; margin-top: 8px; }
-  .privacy { background: #e8f5e9; padding: 12px; border-radius: 4px; margin-bottom: 20px; }
+  .note { font-size: 0.9em; color: #555; margin-top: 8px; background: #fffbe6; padding: 10px; border-radius: 4px; }
+  .privacy { background: #e8f5e9; padding: 12px; border-radius: 4px; margin-bottom: 20px; border-left: 4px solid #2e7d32; }
+  .disclaimer { background: #fff3e0; padding: 12px; border-radius: 4px; margin-top: 24px; font-size: 0.85em; color: #555; border-left: 4px solid #ef6c00; }
+  .copy-btn { background: #555; margin-top: 8px; }
+  .copy-btn:hover { background: #333; }
 </style>
 </head>
 <body>
 <h1>Patient Advocacy Toolkit</h1>
 <div class="privacy">
-  <strong>Privacy first:</strong> This runs entirely in your browser. Nothing is sent anywhere. No server, no tracking. Open the source, audit it, run it offline. Your data stays yours.
+  <strong>Privacy first:</strong> This runs entirely in your browser. Nothing is sent anywhere. No server, no tracking, no cookies. Open the source, audit it, run it offline. Your data stays yours. When you press send, you send it — not us.
 </div>
 
-<h2>Fill in your story</h2>
+<h2>Fill in your story once</h2>
 <div class="field">
   <label>Your name</label>
   <input type="text" id="patientName" placeholder="Jane Doe">
@@ -67,6 +71,11 @@
 
 <div class="output" id="output" style="display:none;"></div>
 <div class="note" id="note" style="display:none;"></div>
+<button class="copy-btn" id="copyBtn" style="display:none;" onclick="copyLetter()">Copy letter to clipboard</button>
+
+<div class="disclaimer">
+  <strong>Disclaimer:</strong> This is an open-source, patient-to-patient tool. It is not legal advice, medical advice, or a substitute for a licensed professional. The author and contributors are not responsible for any outcome, decision, or action taken based on letters generated here. You are solely responsible for reviewing, verifying, and sending any complaint. Use at your own risk. No warranty of any kind, express or implied. See the MIT License in the repository.
+</div>
 
 <script>
 function generate() {
@@ -83,26 +92,37 @@ function generate() {
   let noteText = '';
 
   if (type === 'medical-board') {
-    letter = `FORMAL COMPLAINT TO STATE MEDICAL BOARD\n\nTo: [State] Medical Board\nRe: Complaint against ${provider}\n\nPatient: ${name}\nDOB: ${dob}\nDates of care: ${dates}\n\nSummary of facts:\n${facts}\n\nRequested resolution:\n${resolution}\n\nI request a full investigation. I have attached a timeline and supporting records.\n\nSincerely,\n${name}`; 
-    noteText = 'Find your board at fsmb.org. File online. Upload timeline + key records. Keep the reference number.';
+    letter = `FORMAL COMPLAINT TO STATE MEDICAL BOARD\n\nTo: [State] Medical Board\nRe: Complaint against ${provider}\n\nPatient: ${name}\nDOB: ${dob}\nDates of care: ${dates}\n\nSummary of facts:\n${facts}\n\nRequested resolution:\n${resolution}\n\nI request a full investigation. I have attached a timeline and supporting records.\n\nSincerely,\n${name}`;
+    noteText = 'Find your board at fsmb.org/contact-a-state-medical-board. File online. Upload timeline + key records. Keep the reference number. Boards typically respond in weeks to months.';
   } else if (type === 'hospital-grievance') {
     letter = `FORMAL PATIENT GRIEVANCE\n\nTo: Patient Advocate / Patient Relations\n${provider}\n${addr}\n\nPatient: ${name} | DOB: ${dob}\nDates: ${dates}\n\nNature of grievance:\n${facts}\n\nRequested resolution:\n${resolution}\n\nI request a written response within the timeframe required by 42 CFR 482.13.\n\n${name}`;
-    noteText = 'Hospitals must respond in writing under CMS rules. Ask for the reference number and the investigation timeline.';
+    noteText = 'Hospitals must respond in writing under CMS rules (42 CFR 482.13). Ask for the reference number and the investigation timeline. Keep a copy.';
   } else if (type === 'joint-commission') {
-    letter = `PATIENT SAFETY CONCERN (The Joint Commission)\n\nFacility: ${provider}\nDates: ${dates}\n\nSummary (no medical records — they shred PHI):\n${facts}\n\nRequested action: investigation / unannounced survey if warranted.\n\nContact: ${name}`; 
-    noteText = 'Use the online form at jointcommission.org. Do NOT attach medical records — they shred them. Summarize only. Phone: 1-800-994-6610.';
+    letter = `PATIENT SAFETY CONCERN (The Joint Commission)\n\nFacility: ${provider}\nDates: ${dates}\n\nSummary (no medical records — they shred PHI):\n${facts}\n\nRequested action: investigation / unannounced survey if warranted.\n\nContact: ${name}`;
+    noteText = 'Use the online form at jointcommission.org. Do NOT attach medical records — they shred them. Summarize only. Phone: 1-800-994-6610. Mail: One Renaissance Blvd, Oakbrook Terrace, IL 60181.';
   } else if (type === 'ocr') {
     letter = `COMPLAINT TO HHS OFFICE FOR CIVIL RIGHTS\n\nRe: HIPAA / Civil Rights / Patient Rights violation\nProvider: ${provider}\nDates: ${dates}\n\nFacts:\n${facts}\n\nI request investigation. Note: privacy complaints must be filed within 180 days of when I knew of the violation.\n\n${name}`;
-    noteText = 'File at ocrportal.hhs.gov. 180-day window for privacy. Written response required.';
+    noteText = 'File at ocrportal.hhs.gov. 180-day window for privacy complaints. Written response required. Retaliation is prohibited by law.';
   } else {
     letter = `COMPLAINT TO STATE DEPARTMENT OF HEALTH\n\nFacility: ${provider}\n${addr}\nDates: ${dates}\n\n${facts}\n\nRequested: investigation of facility quality / licensing standards.\n\n${name}`;
-    noteText = 'Find your state agency via CMS state survey directory. File online or by mail.';
+    noteText = 'Find your state agency via CMS state survey directory. File online or by mail. Keep the reference number.';
   }
 
   document.getElementById('output').style.display = 'block';
   document.getElementById('output').textContent = letter;
   document.getElementById('note').style.display = 'block';
   document.getElementById('note').textContent = noteText;
+  document.getElementById('copyBtn').style.display = 'inline-block';
+}
+
+function copyLetter() {
+  const text = document.getElementById('output').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    const old = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = old, 1500);
+  });
 }
 </script>
 </body>

@@ -2,7 +2,7 @@
 
 **Open-source, privacy-first complaint generator for patients.**
 
-This is a static web tool. Everything runs in your browser. No data is sent to any server. You fill in your story, attach documents, and it generates pre-filled complaint letters and forms for the right agencies. You review, download, and send them yourself.
+This is a static web tool. Everything runs in your browser. No data is sent to any server. You fill in your story, and it generates pre-filled complaint letters for the right agencies. You review, copy, and send them yourself.
 
 ## Why this exists
 
@@ -24,16 +24,21 @@ Patients who are sick, tired, or not fluent in medical bureaucracy get dismissed
 ## Files
 
 - `index.html` — the generator (open in any browser)
-- `process-map.md` — the full step-by-step
-- `templates/` — pre-filled letter templates for each agency
-- `docs/` — resources and links
+- `process-map.md` — the full step-by-step attack plan
+- `docs/resources.md` — verified links and statutes
+- `LICENSE` — MIT
+- `DISCLAIMER.md` — full liability waiver
 
 ## Privacy
 
-This is static HTML/JS. No backend. No tracking. Run it offline if you want. Source is yours to audit.
+This is static HTML/JS. No backend. No tracking. No cookies. Run it offline if you want. Source is yours to audit. When you press generate, nothing leaves your machine.
 
 ## License
 
 MIT — use it, fork it, improve it.
+
+## Disclaimer
+
+This is a patient-to-patient gift. Not legal advice. Not medical advice. The author is not responsible for outcomes. Use at your own risk. See DISCLAIMER.md.
 
 Built for patients who have to become their own case managers.

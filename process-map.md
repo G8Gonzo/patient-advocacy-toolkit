@@ -19,7 +19,7 @@
 You do not have to wait for one to finish before starting another. Hit them together.
 
 ### A. The Doctor (State Medical Board)
-- Find your state's board: fsmb.org (Federation of State Medical Boards directory)
+- Find your state's board: https://www.fsmb.org/contact-a-state-medical-board/
 - File online complaint. Upload your timeline and key records.
 - This triggers an investigation into licensing. Slow but real.
 
@@ -30,22 +30,23 @@ You do not have to wait for one to finish before starting another. Hit them toge
 
 ### C. Accreditation (The Joint Commission)
 - Only if the facility is TJC-accredited.
-- Online form: jointcommission.org (they shred medical records — summarize, don't attach PHI).
+- Online form: https://www.jointcommission.org/en-us/contact-us/report-a-patient-safety-event
 - Phone: 1-800-994-6610
-- Can trigger an unannounced survey.
+- Mail: Office of Quality and Patient Safety, One Renaissance Blvd, Oakbrook Terrace, IL 60181
+- Can trigger an unannounced survey. Do NOT attach medical records — they shred PHI.
 
 ### D. Civil Rights / Privacy (HHS OCR)
 - For HIPAA violations, discrimination, or patient rights breaches.
-- Portal: ocrportal.hhs.gov
+- Portal: https://ocrportal.hhs.gov/ocr/smartscreen/main.jsf
 - 180-day window for privacy complaints.
-- Written response required.
+- Written response required. Retaliation is prohibited.
 
 ### E. Medicare (if applicable)
 - BFCC-QIO for your state (quality of care).
-- Find via medicare.gov.
+- Find via https://www.medicare.gov/basics/your-medicare-rights/get-help-with-your-coverage/file-a-complaint
 
 ### F. Fraud / Billing (HHS OIG)
-- If billing fraud suspected: 1-800-HHS-TIPS or oig.hhs.gov
+- If billing fraud suspected: 1-800-HHS-TIPS or https://oig.hhs.gov
 
 ## Stage 3 — The lever (what makes them move)
 - **Documentation density.** A clean timeline with dates, names, and quotes is harder to dismiss than a rant.
