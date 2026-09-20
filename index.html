@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Advocacy Toolkit — Complaint Generator</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #222; }
+  h1 { color: #1a3a5c; }
+  .field { margin-bottom: 16px; }
+  label { display: block; font-weight: 600; margin-bottom: 4px; }
+  input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+  textarea { min-height: 80px; }
+  button { background: #1a3a5c; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 16px; }
+  button:hover { background: #2a4a6c; }
+  .output { background: #f4f4f4; border: 1px solid #ddd; padding: 16px; border-radius: 4px; white-space: pre-wrap; font-family: monospace; margin-top: 20px; }
+  .note { font-size: 0.9em; color: #666; margin-top: 8px; }
+  .privacy { background: #e8f5e9; padding: 12px; border-radius: 4px; margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<h1>Patient Advocacy Toolkit</h1>
+<div class="privacy">
+  <strong>Privacy first:</strong> This runs entirely in your browser. Nothing is sent anywhere. No server, no tracking. Open the source, audit it, run it offline. Your data stays yours.
+</div>
+
+<h2>Fill in your story</h2>
+<div class="field">
+  <label>Your name</label>
+  <input type="text" id="patientName" placeholder="Jane Doe">
+</div>
+<div class="field">
+  <label>Date of birth</label>
+  <input type="text" id="dob" placeholder="MM/DD/YYYY">
+</div>
+<div class="field">
+  <label>Provider / facility name</label>
+  <input type="text" id="provider" placeholder="Dr. Smith / City Hospital">
+</div>
+<div class="field">
+  <label>Provider address</label>
+  <input type="text" id="providerAddr" placeholder="123 Main St, City, ST 00000">
+</div>
+<div class="field">
+  <label>Date(s) of the issue</label>
+  <input type="text" id="dates" placeholder="e.g., 2024-03-15 to 2024-06-01">
+</div>
+<div class="field">
+  <label>What happened (timeline / facts)</label>
+  <textarea id="facts" placeholder="Describe what was promised, what was done, what failed. Dates and names help."></textarea>
+</div>
+<div class="field">
+  <label>What you want (resolution)</label>
+  <textarea id="resolution" placeholder="e.g., second opinion, corrected treatment plan, written apology, records release"></textarea>
+</div>
+<div class="field">
+  <label>Complaint type</label>
+  <select id="type">
+    <option value="medical-board">State Medical Board (doctor)</option>
+    <option value="hospital-grievance">Hospital Patient Advocate / Grievance</option>
+    <option value="joint-commission">The Joint Commission (accredited facility)</option>
+    <option value="ocr">HHS OCR (HIPAA / civil rights)</option>
+    <option value="state-health">State Department of Health (facility)</option>
+  </select>
+</div>
+<button onclick="generate()">Generate complaint letter</button>
+
+<div class="output" id="output" style="display:none;"></div>
+<div class="note" id="note" style="display:none;"></div>
+
+<script>
+function generate() {
+  const name = document.getElementById('patientName').value || '[Your Name]';
+  const dob = document.getElementById('dob').value || '[DOB]';
+  const provider = document.getElementById('provider').value || '[Provider]';
+  const addr = document.getElementById('providerAddr').value || '[Address]';
+  const dates = document.getElementById('dates').value || '[Dates]';
+  const facts = document.getElementById('facts').value || '[Describe what happened]';
+  const resolution = document.getElementById('resolution').value || '[What you want]';
+  const type = document.getElementById('type').value;
+
+  let letter = '';
+  let noteText = '';
+
+  if (type === 'medical-board') {
+    letter = `FORMAL COMPLAINT TO STATE MEDICAL BOARD\n\nTo: [State] Medical Board\nRe: Complaint against ${provider}\n\nPatient: ${name}\nDOB: ${dob}\nDates of care: ${dates}\n\nSummary of facts:\n${facts}\n\nRequested resolution:\n${resolution}\n\nI request a full investigation. I have attached a timeline and supporting records.\n\nSincerely,\n${name}`; 
+    noteText = 'Find your board at fsmb.org. File online. Upload timeline + key records. Keep the reference number.';
+  } else if (type === 'hospital-grievance') {
+    letter = `FORMAL PATIENT GRIEVANCE\n\nTo: Patient Advocate / Patient Relations\n${provider}\n${addr}\n\nPatient: ${name} | DOB: ${dob}\nDates: ${dates}\n\nNature of grievance:\n${facts}\n\nRequested resolution:\n${resolution}\n\nI request a written response within the timeframe required by 42 CFR 482.13.\n\n${name}`;
+    noteText = 'Hospitals must respond in writing under CMS rules. Ask for the reference number and the investigation timeline.';
+  } else if (type === 'joint-commission') {
+    letter = `PATIENT SAFETY CONCERN (The Joint Commission)\n\nFacility: ${provider}\nDates: ${dates}\n\nSummary (no medical records — they shred PHI):\n${facts}\n\nRequested action: investigation / unannounced survey if warranted.\n\nContact: ${name}`; 
+    noteText = 'Use the online form at jointcommission.org. Do NOT attach medical records — they shred them. Summarize only. Phone: 1-800-994-6610.';
+  } else if (type === 'ocr') {
+    letter = `COMPLAINT TO HHS OFFICE FOR CIVIL RIGHTS\n\nRe: HIPAA / Civil Rights / Patient Rights violation\nProvider: ${provider}\nDates: ${dates}\n\nFacts:\n${facts}\n\nI request investigation. Note: privacy complaints must be filed within 180 days of when I knew of the violation.\n\n${name}`;
+    noteText = 'File at ocrportal.hhs.gov. 180-day window for privacy. Written response required.';
+  } else {
+    letter = `COMPLAINT TO STATE DEPARTMENT OF HEALTH\n\nFacility: ${provider}\n${addr}\nDates: ${dates}\n\n${facts}\n\nRequested: investigation of facility quality / licensing standards.\n\n${name}`;
+    noteText = 'Find your state agency via CMS state survey directory. File online or by mail.';
+  }
+
+  document.getElementById('output').style.display = 'block';
+  document.getElementById('output').textContent = letter;
+  document.getElementById('note').style.display = 'block';
+  document.getElementById('note').textContent = noteText;
+}
+</script>
+</body>
+</html>
